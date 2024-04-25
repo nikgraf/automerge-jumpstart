@@ -1,0 +1,23 @@
+{
+  "name": "automerge-apps-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.3"
+  },
+  "scripts": {
+    "ts:check": "pnpm -r ts:check",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint"
+  },
+  "pnpm": {
+    "overrides": {
+      "@automerge/automerge": "^2.2.4"
+    }
+  }
+}

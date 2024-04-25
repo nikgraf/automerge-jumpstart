@@ -1,0 +1,28 @@
+name: "Deploy Server"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: ./apps/server
+      - name: Generate Prisma Client
+        working-directory: ./apps/server
+        run: pnpm prisma generate
+      - name: Build
+        working-directory: ./apps/server
+        run: pnpm build
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only ./apps/server/build
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String             @id @default(uuid())
+  username           String             @unique
+  registrationRecord String
+  sessions           Session[]
+  loginAttempt       LoginAttempt?
+  createdAt          DateTime           @default(now())
+  documents          UsersOnDocuments[]
+}
+
+model Session {
+  sessionKey String   @id
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model LoginAttempt {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id])
+  serverLoginState String
+  createdAt        DateTime @default(now())
+}
+
+model Document {
+  id                  String               @id
+  name                String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  users               UsersOnDocuments[]
+  documentInvitations DocumentInvitation[]
+}
+
+model UsersOnDocuments {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+  isAdmin    Boolean
+
+  @@id([userId, documentId])
+}
+
+model DocumentInvitation {
+  id         String   @id @default(uuid())
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+  token      String   @unique
+  createdAt  DateTime @default(now())
+}
+
+model DocumentData {
+  key   Bytes[] @id
+  value Bytes
+
+  @@ignore
+}

@@ -1,0 +1,5 @@
+/src
+npm-debug.log
+.amrg
+.env
+.env.example

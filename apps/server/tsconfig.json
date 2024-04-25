@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "lib": ["esnext"],
+    "types": ["node"],
+    "baseUrl": "./",
+    "strict": true
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["./src"]
+}

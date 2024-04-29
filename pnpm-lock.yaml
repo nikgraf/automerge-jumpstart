@@ -170,6 +170,9 @@ importers:
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
+      '@types/node':
+        specifier: ^20.12.7
+        version: 20.12.7
       '@types/ws':
         specifier: ^8.5.10
         version: 8.5.10

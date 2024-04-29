@@ -1,0 +1,22 @@
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "automerge-packing-list"
+primary_region = "ams"
+# necessary for small machines on fly.io to avoid running out of memory
+swap_size_mb = 2048
+
+[deploy]
+# release_command = "npm run prisma:prod:migrate"
+
+[env]
+PORT = "8080"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 0
+processes = ["app"]

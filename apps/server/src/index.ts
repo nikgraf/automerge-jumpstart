@@ -1,3 +1,3 @@
-import { Server } from "./server.ts";
+import { Server } from "./server.js";
 
 new Server();

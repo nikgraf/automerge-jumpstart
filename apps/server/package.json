@@ -1,9 +1,12 @@
 {
   "name": "server",
-  "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "TS_NODE_TRANSPILE_ONLY=true node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts"
+    "dev": "TS_NODE_TRANSPILE_ONLY=true node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts",
+    "build:ts": "rm -rf dist && pnpm tsc --project tsconfig.json",
+    "build:deploy": "rm -rf build && pnpm deploy --filter=server --prod build",
+    "build": "pnpm run build:ts && pnpm build:deploy",
+    "start:prod": "PORT=$PORT NODE_ENV=production node ./dist/index.js"
   },
   "dependencies": {
     "@automerge/automerge": "^2.2.0",
@@ -15,6 +18,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
     "@types/ws": "^8.5.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"

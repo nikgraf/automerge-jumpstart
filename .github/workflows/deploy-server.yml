@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - automerge-storage
 
 jobs:
   build:
@@ -17,6 +16,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
         working-directory: ./apps/server
+      - name: Generate Prisma Client
+        working-directory: ./apps/server
+        run: pnpm prisma generate
       - name: Build
         working-directory: ./apps/server
         run: pnpm build

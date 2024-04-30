@@ -8,7 +8,7 @@ primary_region = "ams"
 swap_size_mb = 2048
 
 [deploy]
-# release_command = "npm run prisma:prod:migrate"
+release_command = "npx prisma migrate deploy"
 
 [env]
 PORT = "8080"

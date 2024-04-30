@@ -13,6 +13,7 @@
     "@automerge/automerge-repo": "^1.1.9",
     "@automerge/automerge-repo-network-websocket": "^1.1.9",
     "@automerge/automerge-repo-storage-nodefs": "^1.1.9",
+    "@prisma/client": "5.13.0",
     "automerge-repo-storage-postgres": "^0.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -24,6 +25,7 @@
     "@types/node": "^20.12.7",
     "@types/pg": "^8.11.5",
     "@types/ws": "^8.5.10",
+    "prisma": "^5.13.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }

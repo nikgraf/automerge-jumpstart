@@ -10,10 +10,14 @@ import App from "./App.tsx";
 import "./index.css";
 import "./todos.css";
 
+const syncServer = import.meta.env.PROD
+  ? "wss://automerge-packing-list.fly.dev"
+  : "ws://localhost:3030";
+
 const repo = new Repo({
   network: [
     new BroadcastChannelNetworkAdapter(),
-    new BrowserWebSocketClientAdapter("ws://localhost:3030"),
+    new BrowserWebSocketClientAdapter(syncServer),
   ],
   storage: new IndexedDBStorageAdapter(),
 });

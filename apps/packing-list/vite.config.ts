@@ -9,4 +9,8 @@ export default defineConfig({
     format: "es",
     plugins: () => [wasm()],
   },
+
+  build: {
+    target: "esnext",
+  },
 });

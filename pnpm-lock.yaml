@@ -24,7 +24,7 @@ importers:
   apps/counter:
     dependencies:
       '@automerge/automerge':
-        specifier: ^2.2.1
+        specifier: ^2.2.0
         version: 2.2.1
       '@automerge/automerge-repo':
         specifier: ^1.1.9
@@ -85,7 +85,7 @@ importers:
   apps/packing-list:
     dependencies:
       '@automerge/automerge':
-        specifier: ^2.2.1
+        specifier: ^2.2.0
         version: 2.2.1
       '@automerge/automerge-repo':
         specifier: ^1.1.9
@@ -152,15 +152,12 @@ importers:
   apps/server:
     dependencies:
       '@automerge/automerge':
-        specifier: ^2.2.1
+        specifier: ^2.2.0
         version: 2.2.1
       '@automerge/automerge-repo':
         specifier: ^1.1.9
         version: 1.1.9(@types/node@20.12.7)(typescript@5.4.5)
       '@automerge/automerge-repo-network-websocket':
-        specifier: ^1.1.9
-        version: 1.1.9(@types/node@20.12.7)(typescript@5.4.5)
-      '@automerge/automerge-repo-storage-nodefs':
         specifier: ^1.1.9
         version: 1.1.9(@types/node@20.12.7)(typescript@5.4.5)
       '@prisma/client':
@@ -224,9 +221,6 @@ packages:
 
   '@automerge/automerge-repo-storage-indexeddb@1.1.9':
     resolution: {integrity: sha512-y/9nxCXZNWnnLM30ClaJ12wKB3Cotqw8i011zRB6mKB6cmy9l3QV7hK2d34ReEdRlmJ7gmO54kMvNnmBKcmmeA==}
-
-  '@automerge/automerge-repo-storage-nodefs@1.1.9':
-    resolution: {integrity: sha512-ARFNTpsuM3Vp4upNdo4LqZmf2Sup4/nZwPmf5TILJKrO36K/5qjxtt5W1BC7I+tHsMczWc428FghAkP0NjwaCg==}
 
   '@automerge/automerge-repo@1.1.9':
     resolution: {integrity: sha512-rh8PEgC0tDULrfnS5Gcq0U8yxqU0kuwcfx/JkQnOtp0FU/1IoalGAc3qgvceruRMOrzfXaktZ/r9a13I5UtiTQ==}
@@ -1944,11 +1938,6 @@ packages:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
     hasBin: true
 
-  rimraf@5.0.5:
-    resolution: {integrity: sha512-CqDakW+hMe/Bz202FPEymy68P+G50RfMQK+Qo5YUqc9SPipvbGjCGKd0RSKEelbsfQuw3g5NZDSrlZZAJurH1A==}
-    engines: {node: '>=14'}
-    hasBin: true
-
   rollup@4.17.2:
     resolution: {integrity: sha512-/9ClTJPByC0U4zNLowV1tMBe8yMEAxewtR3cUNX5BoEpGH3dQEWpJLr6CLp0fPdYRF/fzVOgvDb1zXuakwF5kQ==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -2337,17 +2326,6 @@ snapshots:
   '@automerge/automerge-repo-storage-indexeddb@1.1.9(@types/node@20.12.7)(typescript@5.4.5)':
     dependencies:
       '@automerge/automerge-repo': 1.1.9(@types/node@20.12.7)(typescript@5.4.5)
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - supports-color
-      - typescript
-
-  '@automerge/automerge-repo-storage-nodefs@1.1.9(@types/node@20.12.7)(typescript@5.4.5)':
-    dependencies:
-      '@automerge/automerge-repo': 1.1.9(@types/node@20.12.7)(typescript@5.4.5)
-      rimraf: 5.0.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -4020,10 +3998,6 @@ snapshots:
   rimraf@3.0.2:
     dependencies:
       glob: 7.2.3
-
-  rimraf@5.0.5:
-    dependencies:
-      glob: 10.3.12
 
   rollup@4.17.2:
     dependencies:

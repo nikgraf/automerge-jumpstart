@@ -12,7 +12,6 @@
     "@automerge/automerge": "^2.2.1",
     "@automerge/automerge-repo": "^1.1.9",
     "@automerge/automerge-repo-network-websocket": "^1.1.9",
-    "@automerge/automerge-repo-storage-nodefs": "^1.1.9",
     "@prisma/client": "5.13.0",
     "automerge-repo-storage-postgres": "^0.0.1",
     "dotenv": "^16.4.5",

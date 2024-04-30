@@ -1,10 +1,20 @@
 import { Repo, RepoConfig } from "@automerge/automerge-repo";
 import { NodeWSServerAdapter } from "@automerge/automerge-repo-network-websocket";
-import { NodeFSStorageAdapter } from "@automerge/automerge-repo-storage-nodefs";
+import { PrismaClient } from "@prisma/client";
+import { PostgresStorageAdapter } from "automerge-repo-storage-postgres";
 import express from "express";
-import fs from "fs";
 import os from "os";
+import pg from "pg";
 import { WebSocketServer } from "ws";
+
+const prisma = new PrismaClient();
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 
 export class Server {
   #socket: WebSocketServer;
@@ -18,12 +28,6 @@ export class Server {
   #repo: Repo;
 
   constructor() {
-    const dir =
-      process.env.DATA_DIR !== undefined ? process.env.DATA_DIR : ".amrg";
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-
     var hostname = os.hostname();
 
     this.#socket = new WebSocketServer({ noServer: true });
@@ -35,7 +39,7 @@ export class Server {
 
     const config: RepoConfig = {
       network: [new NodeWSServerAdapter(this.#socket)],
-      storage: new NodeFSStorageAdapter(dir),
+      storage: new PostgresStorageAdapter("Repository", pool),
       // @ts-expect-error
       peerId: `storage-server-${hostname}`,
       sharePolicy: async () => false,

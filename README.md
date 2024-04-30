@@ -5,6 +5,7 @@ pnpm install
 docker-compose up
 # in another tab
 cd apps/backend
+cp .env.example .env
 pnpm prisma migrate dev
 pnpm dev
 ```

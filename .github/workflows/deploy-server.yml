@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - automerge-storage
 
 jobs:
   build:

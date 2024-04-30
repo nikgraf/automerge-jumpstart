@@ -1,10 +1,27 @@
 import { Repo, RepoConfig } from "@automerge/automerge-repo";
 import { NodeWSServerAdapter } from "@automerge/automerge-repo-network-websocket";
-import { NodeFSStorageAdapter } from "@automerge/automerge-repo-storage-nodefs";
+import { PostgresStorageAdapter } from "automerge-repo-storage-postgres";
 import express from "express";
-import fs from "fs";
 import os from "os";
+import pg from "pg";
 import { WebSocketServer } from "ws";
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+
+// const client = await pool.connect();
+// // const result = await client.query(`
+// // CREATE TABLE repositories (
+// //   key BYTEA[] PRIMARY KEY,
+// //   value BYTEA NOT NULL
+// // );`);
+// const result = await client.query(`SELECT * from repositories;`);
+// console.log(result);
+// client.release();
 
 export class Server {
   #socket: WebSocketServer;
@@ -18,12 +35,6 @@ export class Server {
   #repo: Repo;
 
   constructor() {
-    const dir =
-      process.env.DATA_DIR !== undefined ? process.env.DATA_DIR : ".amrg";
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-
     var hostname = os.hostname();
 
     this.#socket = new WebSocketServer({ noServer: true });
@@ -35,7 +46,7 @@ export class Server {
 
     const config: RepoConfig = {
       network: [new NodeWSServerAdapter(this.#socket)],
-      storage: new NodeFSStorageAdapter(dir),
+      storage: new PostgresStorageAdapter("repositories", pool),
       // @ts-expect-error
       peerId: `storage-server-${hostname}`,
       sharePolicy: async () => false,

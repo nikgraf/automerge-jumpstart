@@ -12,7 +12,7 @@ type TodoType = {
 
 type Todos = { todos: { [key: string]: TodoType } };
 
-function App({ docUrl }: { docUrl: AutomergeUrl }) {
+export const Checklist = ({ docUrl }: { docUrl: AutomergeUrl }) => {
   const [newTodo, setNewTodo] = React.useState("");
   const [currentDoc, changeDoc] = useDocument<Todos>(docUrl);
 
@@ -92,6 +92,4 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       </ul>
     </div>
   );
-}
-
-export default App;
+};

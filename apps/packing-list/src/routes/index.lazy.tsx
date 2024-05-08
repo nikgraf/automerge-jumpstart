@@ -1,41 +1,49 @@
-import { Link, createLazyFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { request } from "../utils/request/request";
+import { Link, createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+import { trpc } from "../utils/trpc/trpc";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
 });
 
 function Index() {
-  const [documents, setDocuments] = useState<{ id: string; name: string }[]>(
-    []
-  );
-
-  useEffect(() => {
-    request("GET", "/documents")
-      .then((res) => res.json())
-      .then((data) => setDocuments(data.documents));
-  }, []);
+  const documentsQuery = trpc.documents.useQuery(undefined, {
+    refetchInterval: 5000,
+  });
+  const createDocumentMutation = trpc.createDocument.useMutation();
+  const navigate = useNavigate();
 
   return (
     <div className="p-2">
       <h3>Welcome Home!</h3>
-      {documents.map((doc) => (
+      {documentsQuery.data?.map((doc) => (
         <div key={doc.id}>
           <Link to={`/checklist#automerge:${doc.id}`}>{doc.name}</Link>
         </div>
       ))}
-      <button
-        onClick={() => {
-          request("POST", "/documents")
-            .then((res) => res.json())
-            .then((data) => {
-              setDocuments([...documents, data.document]);
-            });
+
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          createDocumentMutation.mutate(
+            // @ts-expect-error form name is defined
+
+            { name: event.target.name.value },
+            {
+              onSuccess: ({ document }) => {
+                documentsQuery.refetch();
+                navigate({ to: `/checklist#automerge:${document.id}` });
+              },
+              onError: () => {
+                alert("Failed to create the list");
+              },
+            }
+          );
         }}
       >
-        Create Document
-      </button>
+        <input type="text" name="name" />
+        <button type="submit">Create Document</button>
+      </form>
     </div>
   );
 }

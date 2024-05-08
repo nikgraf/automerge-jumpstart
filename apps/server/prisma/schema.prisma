@@ -11,13 +11,13 @@ datasource db {
 }
 
 model User {
-  id                 String        @id @default(uuid())
-  username           String        @unique
+  id                 String             @id @default(uuid())
+  username           String             @unique
   registrationRecord String
   sessions           Session[]
   loginAttempt       LoginAttempt?
-  createdAt          DateTime      @default(now())
-  documents          Document[]
+  createdAt          DateTime           @default(now())
+  documents          UsersOnDocuments[]
 }
 
 model Session {
@@ -37,12 +37,21 @@ model LoginAttempt {
 }
 
 model Document {
-  id        String   @id
+  id        String             @id
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  owner     User     @relation(fields: [ownerId], references: [id])
-  ownerId   String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  users     UsersOnDocuments[]
+}
+
+model UsersOnDocuments {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+  isAdmin    Boolean
+
+  @@id([userId, documentId])
 }
 
 model DocumentData {

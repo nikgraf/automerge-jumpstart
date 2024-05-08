@@ -1,9 +1,10 @@
 import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthForm } from "../components/AuthForm/AuthForm";
-import { login } from "../utils/login/login";
+import { useLogin } from "../hooks/useLogin/useLogin.js";
 
 const Login = () => {
   const navigate = useNavigate();
+  const login = useLogin();
 
   return (
     <AuthForm

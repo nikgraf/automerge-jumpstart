@@ -34,9 +34,17 @@ CREATE TABLE "Document" (
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ownerId" TEXT NOT NULL,
 
     CONSTRAINT "Document_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UsersOnDocuments" (
+    "userId" TEXT NOT NULL,
+    "documentId" TEXT NOT NULL,
+    "isAdmin" BOOLEAN NOT NULL,
+
+    CONSTRAINT "UsersOnDocuments_pkey" PRIMARY KEY ("userId","documentId")
 );
 
 -- CreateTable
@@ -60,4 +68,7 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "LoginAttempt" ADD CONSTRAINT "LoginAttempt_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Document" ADD CONSTRAINT "Document_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UsersOnDocuments" ADD CONSTRAINT "UsersOnDocuments_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UsersOnDocuments" ADD CONSTRAINT "UsersOnDocuments_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "Document"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

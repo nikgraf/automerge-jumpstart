@@ -105,9 +105,18 @@ importers:
       '@serenity-kit/opaque':
         specifier: ^0.8.4
         version: 0.8.4
+      '@tanstack/react-query':
+        specifier: ^5.35.1
+        version: 5.35.1(react@18.3.1)
       '@tanstack/react-router':
         specifier: ^1.31.19
         version: 1.31.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@trpc/client':
+        specifier: 11.0.0-rc.366
+        version: 11.0.0-rc.366(@trpc/server@11.0.0-rc.366)
+      '@trpc/react-query':
+        specifier: 11.0.0-rc.366
+        version: 11.0.0-rc.366(@tanstack/react-query@5.35.1(react@18.3.1))(@trpc/client@11.0.0-rc.366(@trpc/server@11.0.0-rc.366))(@trpc/server@11.0.0-rc.366)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -178,6 +187,9 @@ importers:
       '@serenity-kit/opaque':
         specifier: ^0.8.4
         version: 0.8.4
+      '@trpc/server':
+        specifier: 11.0.0-rc.366
+        version: 11.0.0-rc.366
       automerge-repo-storage-postgres:
         specifier: ^0.0.1
         version: 0.0.1(@types/node@20.12.7)(typescript@5.4.5)
@@ -919,6 +931,14 @@ packages:
     resolution: {integrity: sha512-rahAZXlR879P7dngDH7BZwGYiODA9D5Hqo6nUHn9GAURcqZU5IW0ZiT54dPtV5EPES7muZZmknReYueDHs7FFQ==}
     engines: {node: '>=12'}
 
+  '@tanstack/query-core@5.35.1':
+    resolution: {integrity: sha512-0Dnpybqb8+ps6WgqBnqFEC+1F/xLvUosRAq+wiGisTgolOZzqZfkE2995dEXmhuzINiTM7/a6xSGznU0NIvBkw==}
+
+  '@tanstack/react-query@5.35.1':
+    resolution: {integrity: sha512-i2T7m2ffQdNqlX3pO+uMsnQ0H4a59Ens2GxtlMsRiOvdSB4SfYmHb27MnvFV8rGmtWRaa4gPli0/rpDoSS5LbQ==}
+    peerDependencies:
+      react: ^18.0.0
+
   '@tanstack/react-router@1.31.19':
     resolution: {integrity: sha512-WSN5rmB24AhvCfHs9R5LCbXAym1OGFBZHw11VoS1nDZkY+aaH1AjYNm3l/bPH8wC3bJRV2WXKyPTxywjrWPQMQ==}
     engines: {node: '>=12'}
@@ -949,6 +969,23 @@ packages:
 
   '@tanstack/store@0.1.3':
     resolution: {integrity: sha512-GnolmC8Fr4mvsHE1fGQmR3Nm0eBO3KnZjDU0a+P3TeQNM/dDscFGxtA7p31NplQNW3KwBw4t1RVFmz0VeKLxcw==}
+
+  '@trpc/client@11.0.0-rc.366':
+    resolution: {integrity: sha512-bIbcF/UhCifU5i9hbbaMlmOS2NgnRq5W0pJH2SJhrp6jyIIaCF+uNAIZtkfO0GriBb0agBmGIXqvGLFEexiTKA==}
+    peerDependencies:
+      '@trpc/server': 11.0.0-rc.366+237dbb3f9
+
+  '@trpc/react-query@11.0.0-rc.366':
+    resolution: {integrity: sha512-LCdJFymEdaKBBNRQPVAcEw9qNu3m+n9hH3qIPKDanLWYlo4h+8lQnj8JIhYpClD2G3gkvD0ZSZ+F54QvwrI3nA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.25.0
+      '@trpc/client': 11.0.0-rc.366+237dbb3f9
+      '@trpc/server': 11.0.0-rc.366+237dbb3f9
+      react: '>=18.2.0'
+      react-dom: '>=18.2.0'
+
+  '@trpc/server@11.0.0-rc.366':
+    resolution: {integrity: sha512-Pr7SdpIVrOGtIGt9vs7i3v0hqzlpXbi8/8RV7XfrXVJ5hlzKYOz5VE0AjckhHXuhrUlpTGTDm0/2nz0ywLcQ2g==}
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -3088,6 +3125,13 @@ snapshots:
 
   '@tanstack/history@1.31.16': {}
 
+  '@tanstack/query-core@5.35.1': {}
+
+  '@tanstack/react-query@5.35.1(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.35.1
+      react: 18.3.1
+
   '@tanstack/react-router@1.31.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@tanstack/history': 1.31.16
@@ -3143,6 +3187,20 @@ snapshots:
       - vite
 
   '@tanstack/store@0.1.3': {}
+
+  '@trpc/client@11.0.0-rc.366(@trpc/server@11.0.0-rc.366)':
+    dependencies:
+      '@trpc/server': 11.0.0-rc.366
+
+  '@trpc/react-query@11.0.0-rc.366(@tanstack/react-query@5.35.1(react@18.3.1))(@trpc/client@11.0.0-rc.366(@trpc/server@11.0.0-rc.366))(@trpc/server@11.0.0-rc.366)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/react-query': 5.35.1(react@18.3.1)
+      '@trpc/client': 11.0.0-rc.366(@trpc/server@11.0.0-rc.366)
+      '@trpc/server': 11.0.0-rc.366
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@trpc/server@11.0.0-rc.366': {}
 
   '@tsconfig/node10@1.0.11': {}
 

@@ -1,14 +1,15 @@
 import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthForm } from "../components/AuthForm/AuthForm";
-import { registerAndLogin } from "../utils/registerAndLogin/registerAndLogin";
+import { useRegisterAndLogin } from "../hooks/useRegisterAndLogin/useRegisterAndLogin";
 
 const Register = () => {
   const navigate = useNavigate();
+  const registerAndLogin = useRegisterAndLogin();
+
   return (
     <AuthForm
       onSubmit={async ({ password, username }) => {
         await registerAndLogin({ userIdentifier: username, password });
-        // TODO login after registration
         navigate({ to: "/" });
       }}
       children="Register"

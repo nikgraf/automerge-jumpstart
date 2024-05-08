@@ -59,19 +59,9 @@ Currently there is no authorization per repository. If a user knows the ID they 
 
 ### Todos
 
-- allow to change name of a list (and add it during start)
-- useQuery for the list
-- show list name at the top
-
-- get current username from /me request and show it in the header
-- update authStatus to update the navigation
-- request should have an intercept to redirect to login if not authenticated
-
 - allow to add users to a list (invitation)
 - add radixUI
 - rename packing list / todos to LiveList
 - use ephemeral messages to indicate activity
-- production setup (websocket and hardcoded localhost for api)
+- production setup (websocket and hardcoded localhost for api) and client hardcoded on server (see TODO)
 - produce video
-- fix when session cookie expires?
-- automatically redirect to login if session is not valid (checklist page)

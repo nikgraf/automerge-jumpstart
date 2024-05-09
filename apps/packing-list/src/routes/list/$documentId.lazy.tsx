@@ -6,8 +6,8 @@ import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-index
 import { useQueryClient } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { getQueryKey } from "@trpc/react-query";
-import { Checklist } from "../components/Checklist/Checklist";
-import { trpc } from "../utils/trpc/trpc";
+import { Checklist } from "../../components/Checklist/Checklist";
+import { trpc } from "../../utils/trpc/trpc";
 
 const syncServer = import.meta.env.PROD
   ? "wss://automerge-packing-list.fly.dev"
@@ -23,11 +23,10 @@ const repo = new Repo({
 
 const Document = () => {
   const queryClient = useQueryClient();
-  const rootDocUrl = `${document.location.hash.substring(1)}`;
+  const { documentId } = Route.useParams();
+  const rootDocUrl = `automerge:${documentId}`;
   const handle = isValidAutomergeUrl(rootDocUrl) ? repo.find(rootDocUrl) : null;
-  const getDocumentQuery = trpc.getDocument.useQuery(
-    handle?.documentId || "invalid"
-  );
+  const getDocumentQuery = trpc.getDocument.useQuery(documentId);
   const documentQueryKey = getQueryKey(trpc.getDocument, handle?.documentId);
   const updateDocumentMutation = trpc.updateDocument.useMutation({
     onSettled: () =>
@@ -59,6 +58,6 @@ const Document = () => {
   );
 };
 
-export const Route = createLazyFileRoute("/checklist")({
+export const Route = createLazyFileRoute("/list/$documentId")({
   component: Document,
 });

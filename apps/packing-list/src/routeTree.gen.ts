@@ -18,8 +18,8 @@ import { Route as rootRoute } from './routes/__root'
 
 const RegisterLazyImport = createFileRoute('/register')()
 const LoginLazyImport = createFileRoute('/login')()
-const ChecklistLazyImport = createFileRoute('/checklist')()
 const IndexLazyImport = createFileRoute('/')()
+const ListDocumentIdLazyImport = createFileRoute('/list/$documentId')()
 
 // Create/Update Routes
 
@@ -33,15 +33,17 @@ const LoginLazyRoute = LoginLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
-const ChecklistLazyRoute = ChecklistLazyImport.update({
-  path: '/checklist',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/checklist.lazy').then((d) => d.Route))
-
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ListDocumentIdLazyRoute = ListDocumentIdLazyImport.update({
+  path: '/list/$documentId',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/list/$documentId.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -49,10 +51,6 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/checklist': {
-      preLoaderRoute: typeof ChecklistLazyImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -63,6 +61,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterLazyImport
       parentRoute: typeof rootRoute
     }
+    '/list/$documentId': {
+      preLoaderRoute: typeof ListDocumentIdLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -70,9 +72,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  ChecklistLazyRoute,
   LoginLazyRoute,
   RegisterLazyRoute,
+  ListDocumentIdLazyRoute,
 ])
 
 /* prettier-ignore-end */

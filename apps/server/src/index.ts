@@ -257,6 +257,6 @@ server.on("upgrade", async (request, socket, head) => {
   webSocketServer.handleUpgrade(request, socket, head, (currentSocket) => {
     // @ts-expect-error adding the session to the socket so we can access it in the network adapter
     currentSocket.session = session;
-    socket.emit("connection", currentSocket, request);
+    webSocketServer.emit("connection", currentSocket, request);
   });
 });

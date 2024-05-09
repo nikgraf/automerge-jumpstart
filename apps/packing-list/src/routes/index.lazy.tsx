@@ -17,7 +17,7 @@ function Index() {
       <h3>Welcome Home!</h3>
       {documentsQuery.data?.map((doc) => (
         <div key={doc.id}>
-          <Link to={`/checklist#automerge:${doc.id}`}>{doc.name}</Link>
+          <Link to={`/list/${doc.id}`}>{doc.name}</Link>
         </div>
       ))}
 
@@ -32,7 +32,7 @@ function Index() {
             {
               onSuccess: ({ document }) => {
                 documentsQuery.refetch();
-                navigate({ to: `/checklist#automerge:${document.id}` });
+                navigate({ to: `/list/${document.id}` });
               },
               onError: () => {
                 alert("Failed to create the list");

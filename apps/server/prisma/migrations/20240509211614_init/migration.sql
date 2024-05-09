@@ -48,6 +48,16 @@ CREATE TABLE "UsersOnDocuments" (
 );
 
 -- CreateTable
+CREATE TABLE "DocumentInvitation" (
+    "id" TEXT NOT NULL,
+    "documentId" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "DocumentInvitation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "DocumentData" (
     "key" BYTEA[],
     "value" BYTEA NOT NULL,
@@ -61,6 +71,9 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 -- CreateIndex
 CREATE UNIQUE INDEX "LoginAttempt_userId_key" ON "LoginAttempt"("userId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "DocumentInvitation_token_key" ON "DocumentInvitation"("token");
+
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -72,3 +85,6 @@ ALTER TABLE "UsersOnDocuments" ADD CONSTRAINT "UsersOnDocuments_userId_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "UsersOnDocuments" ADD CONSTRAINT "UsersOnDocuments_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "Document"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DocumentInvitation" ADD CONSTRAINT "DocumentInvitation_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "Document"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -12,13 +12,16 @@ import os from "os";
 import pg from "pg";
 import { WebSocketServer } from "ws";
 import { z } from "zod";
+import { addUserToDocument } from "./db/addUserToDocument.js";
 import { createDocument } from "./db/createDocument.js";
 import { createLoginAttempt } from "./db/createLoginAttempt.js";
+import { createOrRefreshDocumentInvitation } from "./db/createOrRefreshDocumentInvitation.js";
 import { createSession } from "./db/createSession.js";
 import { createUser } from "./db/createUser.js";
 import { deleteLoginAttempt } from "./db/deleteLoginAttempt.js";
 import { deleteSession } from "./db/deleteSession.js";
 import { getDocument } from "./db/getDocument.js";
+import { getDocumentInvitation } from "./db/getDocumentInvitation.js";
 import { getDocumentsByUserId } from "./db/getDocumentsByUserId.js";
 import { getLoginAttempt } from "./db/getLoginAttempt.js";
 import { getSession } from "./db/getSession.js";
@@ -78,7 +81,11 @@ const appRouter = router({
       documentId: opts.input,
       userId: opts.ctx.session.userId,
     });
-    return { id: document.id, name: document.name };
+    return {
+      id: document.id,
+      name: document.name,
+      isAdmin: document.users.length > 0 ? document.users[0].isAdmin : false,
+    };
   }),
   updateDocument: protectedProcedure
     .input(
@@ -110,6 +117,45 @@ const appRouter = router({
       });
       return { document: { id: document.id, name: document.name } };
     }),
+
+  createOrRefreshDocumentInvitation: protectedProcedure
+    .input(
+      z.object({
+        documentId: z.string(),
+      })
+    )
+    .mutation(async (opts) => {
+      const documentInvitation = await createOrRefreshDocumentInvitation({
+        userId: opts.ctx.session.userId,
+        documentId: opts.input.documentId,
+      });
+      return documentInvitation ? { token: documentInvitation.token } : null;
+    }),
+
+  documentInvitation: protectedProcedure
+    .input(z.string())
+    .query(async (opts) => {
+      const documentInvitation = await getDocumentInvitation({
+        documentId: opts.input,
+        userId: opts.ctx.session.userId,
+      });
+      return { token: documentInvitation.token };
+    }),
+
+  acceptDocumentInvitation: protectedProcedure
+    .input(
+      z.object({
+        token: z.string(),
+      })
+    )
+    .mutation(async (opts) => {
+      const result = await addUserToDocument({
+        userId: opts.ctx.session.userId,
+        documentInvitationToken: opts.input.token,
+      });
+      return result ? { documentId: result.documentId } : null;
+    }),
+
   logout: protectedProcedure.mutation(async (opts) => {
     await deleteSession(opts.ctx.session.token);
     opts.ctx.clearCookie();

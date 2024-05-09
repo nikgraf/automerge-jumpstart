@@ -37,11 +37,12 @@ model LoginAttempt {
 }
 
 model Document {
-  id        String             @id
-  name      String
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  users     UsersOnDocuments[]
+  id                  String               @id
+  name                String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  users               UsersOnDocuments[]
+  documentInvitations DocumentInvitation[]
 }
 
 model UsersOnDocuments {
@@ -52,6 +53,14 @@ model UsersOnDocuments {
   isAdmin    Boolean
 
   @@id([userId, documentId])
+}
+
+model DocumentInvitation {
+  id         String   @id @default(uuid())
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+  token      String   @unique
+  createdAt  DateTime @default(now())
 }
 
 model DocumentData {

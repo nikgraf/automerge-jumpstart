@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { getQueryKey } from "@trpc/react-query";
 import { Checklist } from "../../components/Checklist/Checklist";
+import { DocumentInvitation } from "../../components/DocumentInvitation/DocumentInvitation";
 import { trpc } from "../../utils/trpc/trpc";
 
 const syncServer = import.meta.env.PROD
@@ -53,6 +54,9 @@ const Document = () => {
           });
         }}
       />
+      {getDocumentQuery.data?.isAdmin ? (
+        <DocumentInvitation documentId={documentId} />
+      ) : null}
       <Checklist docUrl={handle.url} />
     </RepoContext.Provider>
   );

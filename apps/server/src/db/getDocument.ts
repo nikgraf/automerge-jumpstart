@@ -11,6 +11,14 @@ export const getDocument = async ({ documentId, userId }: Params) => {
       id: documentId,
       users: { some: { userId } },
     },
+    include: {
+      users: {
+        where: { userId },
+        select: {
+          isAdmin: true,
+        },
+      },
+    },
   });
   return document;
 };

@@ -13,7 +13,7 @@ export const updateDocument = async ({ documentId, userId, name }: Params) => {
     },
     where: {
       id: documentId,
-      users: { some: { userId } },
+      users: { some: { userId, isAdmin: true } },
     },
   });
   return document;

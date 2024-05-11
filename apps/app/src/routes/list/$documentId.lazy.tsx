@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 import { isValidAutomergeUrl, Repo } from "@automerge/automerge-repo";
 import { BroadcastChannelNetworkAdapter } from "@automerge/automerge-repo-network-broadcastchannel";
 import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network-websocket";
@@ -40,23 +41,31 @@ const Document = () => {
 
   return (
     <RepoContext.Provider value={repo}>
-      <input
-        value={
-          updateDocumentMutation.isPending
-            ? updateDocumentMutation.variables.name
-            : getDocumentQuery.data?.name || ""
-        }
-        onChange={(event) => {
-          // Note: could be improved by throttling
-          updateDocumentMutation.mutate({
-            id: handle.documentId,
-            name: event.target.value,
-          });
-        }}
-      />
-      {getDocumentQuery.data?.isAdmin ? (
-        <DocumentInvitation documentId={documentId} />
-      ) : null}
+      <div className="flex justify-between gap-4 pb-8 pt-4 items-end">
+        {getDocumentQuery.data?.isAdmin ? (
+          <Input
+            className="max-w-48 text-xl"
+            value={
+              updateDocumentMutation.isPending
+                ? updateDocumentMutation.variables.name
+                : getDocumentQuery.data?.name || ""
+            }
+            onChange={(event) => {
+              // Note: could be improved by throttling
+              updateDocumentMutation.mutate({
+                id: handle.documentId,
+                name: event.target.value,
+              });
+            }}
+          />
+        ) : (
+          <div className="text-xl">{getDocumentQuery.data?.name}</div>
+        )}
+
+        {getDocumentQuery.data?.isAdmin ? (
+          <DocumentInvitation documentId={documentId} />
+        ) : null}
+      </div>
       <Checklist docUrl={handle.url} />
     </RepoContext.Provider>
   );

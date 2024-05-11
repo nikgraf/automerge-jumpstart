@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   createRootRoute,
@@ -34,47 +35,51 @@ const Root = () => {
 
   return (
     <>
-      <div className="p-2 flex gap-2">
-        {(!meQuery.data && !meQuery.isLoading) || isNotAuthorized ? (
-          <>
-            <Link to="/login" search={{ redirect: getRedirectParam() }}>
-              Login
-            </Link>
-            <Link to="/register" search={{ redirect: getRedirectParam() }}>
-              Register
-            </Link>
-          </>
-        ) : null}
+      <div className="p-5 flex gap-4 items-center justify-between border-b">
+        <div>
+          <Link to="/">LiveList</Link>
+        </div>
+        <div className="flex gap-4 items-center justify-between">
+          {(!meQuery.data && !meQuery.isLoading) || isNotAuthorized ? (
+            <>
+              <Link to="/login" search={{ redirect: getRedirectParam() }}>
+                Login
+              </Link>
+              <Link to="/register" search={{ redirect: getRedirectParam() }}>
+                Register
+              </Link>
+            </>
+          ) : null}
 
-        {meQuery.data && !isNotAuthorized ? (
-          <>
-            <Link to="/">Home</Link>
+          {meQuery.data && !isNotAuthorized ? (
+            <>
+              <div>{meQuery.data.username}</div>
 
-            <span>{meQuery.data.username}</span>
-
-            <button
-              onClick={async () => {
-                removeLocalDb();
-                logoutMutation.mutate(undefined, {
-                  onSuccess: () => {
-                    // delete again to verify in case new info came in during the logout request
-                    removeLocalDb();
-                    queryClient.invalidateQueries();
-                    navigate({ to: "/login" });
-                  },
-                  onError: () => {
-                    alert("Failed to logout");
-                  },
-                });
-              }}
-            >
-              Logout
-            </button>
-          </>
-        ) : null}
+              <Button
+                onClick={async () => {
+                  removeLocalDb();
+                  logoutMutation.mutate(undefined, {
+                    onSuccess: () => {
+                      // delete again to verify in case new info came in during the logout request
+                      removeLocalDb();
+                      queryClient.invalidateQueries();
+                      navigate({ to: "/login" });
+                    },
+                    onError: () => {
+                      alert("Failed to logout");
+                    },
+                  });
+                }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : null}
+        </div>
       </div>
-      <hr />
-      <Outlet />
+      <div className="p-5">
+        <Outlet />
+      </div>
       <TanStackRouterDevtools />
     </>
   );

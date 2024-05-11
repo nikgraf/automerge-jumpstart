@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import React from "react";
@@ -39,7 +40,7 @@ export const Checklist = ({ docUrl }: { docUrl: AutomergeUrl }) => {
           value={newChecklistItem}
           className="new-checklist-item"
         />
-        <button className="add">Add</button>
+        <Button className="add rounded-none h-16">Add</Button>
       </form>
       <ul className="checklist">
         {currentDoc?.checklist &&

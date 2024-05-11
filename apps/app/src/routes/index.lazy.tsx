@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Link, createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 import { trpc } from "../utils/trpc/trpc";
 
@@ -13,15 +16,9 @@ function Index() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-      {documentsQuery.data?.map((doc) => (
-        <div key={doc.id}>
-          <Link to={`/list/${doc.id}`}>{doc.name}</Link>
-        </div>
-      ))}
-
+    <>
       <form
+        className="flex justify-center items-center gap-4 py-4"
         onSubmit={(event) => {
           event.preventDefault();
 
@@ -41,9 +38,24 @@ function Index() {
           );
         }}
       >
-        <input type="text" name="name" />
-        <button type="submit">Create Document</button>
+        <Input
+          type="text"
+          name="name"
+          placeholder="List name"
+          className="max-w-48"
+        />
+        <Button type="submit">Create List</Button>
       </form>
-    </div>
+
+      <div className="flex flex-col gap-2 pt-4">
+        {documentsQuery.data?.map((doc) => (
+          <Link to={`/list/${doc.id}`} key={doc.id}>
+            <Card className="flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-lg transition-all hover:bg-accent">
+              {doc.name}
+            </Card>
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }

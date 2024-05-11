@@ -13,32 +13,36 @@ export const useLogin = () => {
   const queryClient = useQueryClient();
 
   return async ({ userIdentifier, password }: LoginParams) => {
-    const { clientLoginState, startLoginRequest } = opaque.client.startLogin({
-      password,
-    });
+    try {
+      const { clientLoginState, startLoginRequest } = opaque.client.startLogin({
+        password,
+      });
 
-    const { loginResponse } = await loginStartMutation.mutateAsync({
-      userIdentifier,
-      startLoginRequest,
-    });
+      const { loginResponse } = await loginStartMutation.mutateAsync({
+        userIdentifier,
+        startLoginRequest,
+      });
 
-    const loginResult = opaque.client.finishLogin({
-      clientLoginState,
-      loginResponse,
-      password,
-    });
-    if (!loginResult) {
+      const loginResult = opaque.client.finishLogin({
+        clientLoginState,
+        loginResponse,
+        password,
+      });
+      if (!loginResult) {
+        return null;
+      }
+      const { sessionKey, finishLoginRequest } = loginResult;
+
+      const { success } = await loginFinishMutation.mutateAsync({
+        finishLoginRequest,
+        userIdentifier,
+      });
+
+      queryClient.invalidateQueries();
+
+      return success ? sessionKey : null;
+    } catch (error) {
       return null;
     }
-    const { sessionKey, finishLoginRequest } = loginResult;
-
-    const { success } = await loginFinishMutation.mutateAsync({
-      finishLoginRequest,
-      userIdentifier,
-    });
-
-    queryClient.invalidateQueries();
-
-    return success ? sessionKey : null;
   };
 };

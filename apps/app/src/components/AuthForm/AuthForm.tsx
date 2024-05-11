@@ -12,7 +12,6 @@ export const AuthForm = ({ onSubmit, children }: Props) => {
 
   return (
     <form
-      className="max-w-md mr-auto ml-auto"
       onSubmit={(
         e: React.FormEvent<HTMLFormElement> & {
           nativeEvent: { submitter: HTMLButtonElement };

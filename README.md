@@ -61,6 +61,5 @@ Currently there is no authorization per repository. If a user knows the ID they 
 
 - use ephemeral messages to indicate activity
 - production setup (websocket and hardcoded localhost for api) and client hardcoded on server (see TODO)
-- failed login/register shows error message
 - password complexity
 - produce video

@@ -13,24 +13,28 @@ export const useRegisterAndLogin = () => {
   const login = useLogin();
 
   return async ({ userIdentifier, password }: RegisterParams) => {
-    const { clientRegistrationState, registrationRequest } =
-      opaque.client.startRegistration({ password });
-    const { registrationResponse } = await registerStartMutation.mutateAsync({
-      userIdentifier,
-      registrationRequest,
-    });
+    try {
+      const { clientRegistrationState, registrationRequest } =
+        opaque.client.startRegistration({ password });
+      const { registrationResponse } = await registerStartMutation.mutateAsync({
+        userIdentifier,
+        registrationRequest,
+      });
 
-    const { registrationRecord } = opaque.client.finishRegistration({
-      clientRegistrationState,
-      registrationResponse,
-      password,
-    });
+      const { registrationRecord } = opaque.client.finishRegistration({
+        clientRegistrationState,
+        registrationResponse,
+        password,
+      });
 
-    await registerFinishMutation.mutateAsync({
-      userIdentifier,
-      registrationRecord,
-    });
+      await registerFinishMutation.mutateAsync({
+        userIdentifier,
+        registrationRecord,
+      });
 
-    return login({ userIdentifier, password });
+      return login({ userIdentifier, password });
+    } catch (error) {
+      return null;
+    }
   };
 };

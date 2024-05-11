@@ -22,6 +22,7 @@ import { deleteLoginAttempt } from "./db/deleteLoginAttempt.js";
 import { deleteSession } from "./db/deleteSession.js";
 import { getDocument } from "./db/getDocument.js";
 import { getDocumentInvitation } from "./db/getDocumentInvitation.js";
+import { getDocumentMembers } from "./db/getDocumentMembers.js";
 import { getDocumentsByUserId } from "./db/getDocumentsByUserId.js";
 import { getLoginAttempt } from "./db/getLoginAttempt.js";
 import { getSession } from "./db/getSession.js";
@@ -155,6 +156,14 @@ const appRouter = router({
       });
       return result ? { documentId: result.documentId } : null;
     }),
+
+  documentMembers: protectedProcedure.input(z.string()).query(async (opts) => {
+    const members = await getDocumentMembers({
+      documentId: opts.input,
+      userId: opts.ctx.session.userId,
+    });
+    return members;
+  }),
 
   logout: protectedProcedure.mutation(async (opts) => {
     await deleteSession(opts.ctx.session.token);

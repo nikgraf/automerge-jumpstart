@@ -7,6 +7,7 @@ import {
   useNavigate,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { CircleCheckBig } from "lucide-react";
 import { removeLocalDb } from "../utils/removeLocalDb/removeLocalDb";
 import { trpc } from "../utils/trpc/trpc";
 
@@ -36,9 +37,10 @@ const Root = () => {
   return (
     <>
       <div className="p-5 flex gap-4 items-center justify-between border-b">
-        <div>
-          <Link to="/">LiveList</Link>
-        </div>
+        <Link to="/" className="text-xl flex items-center gap-2">
+          <CircleCheckBig />
+          LiveList
+        </Link>
         <div className="flex gap-4 items-center justify-between">
           {(!meQuery.data && !meQuery.isLoading) || isNotAuthorized ? (
             <>

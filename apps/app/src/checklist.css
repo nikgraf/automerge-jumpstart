@@ -25,9 +25,9 @@ button {
 .checklist-container {
   background: #fff;
   position: relative;
-  box-shadow:
-    0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
+  border: 1px solid #ededed;
+  border-radius: calc(0.5rem - 2px);
 }
 
 .checklist-container input::-webkit-input-placeholder {
@@ -73,6 +73,7 @@ button {
   height: 64px;
   width: 64px;
   border-left: 1px solid #ededed;
+  border-top-right-radius: calc(0.5rem - 2px);
 }
 
 .checklist {

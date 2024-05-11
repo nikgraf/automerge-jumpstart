@@ -55,11 +55,8 @@ SELECT * FROM "Document";
 
 Users use OPAQUE to authenticate with the server. After Login the server creates a session and stores it as HTTP-Only Cookie. The session is used to authenticate the user for authenticated requests and also to connect to the Websocket.
 
-Currently there is no authorization per repository. If a user knows the ID they can read and write data.
-
 ### Todos
 
-- use ephemeral messages to indicate activity
 - production setup (websocket and hardcoded localhost for api) and client hardcoded on server (see TODO)
 - password complexity
 - produce video

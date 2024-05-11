@@ -35,14 +35,14 @@ pnpm dev
 ## Connect to the Database
 
 ```sh
-fly postgres connect -a automerge-packing-list-db
+fly postgres connect -a automerge-livelist-db
 ```
 
 ```sh
 # list dbs
 \list;
 # connect to a db
-\c automerge_packing_list;
+\c automerge_livelist;
 # list tables
 \dt
 # query a table
@@ -60,7 +60,6 @@ Currently there is no authorization per repository. If a user knows the ID they 
 ### Todos
 
 - add radixUI
-- rename packing list / todos to LiveList
 - use ephemeral messages to indicate activity
 - production setup (websocket and hardcoded localhost for api) and client hardcoded on server (see TODO)
 - failed login/register shows error message

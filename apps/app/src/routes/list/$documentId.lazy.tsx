@@ -11,7 +11,7 @@ import { DocumentInvitation } from "../../components/DocumentInvitation/Document
 import { trpc } from "../../utils/trpc/trpc";
 
 const syncServer = import.meta.env.PROD
-  ? "wss://automerge-packing-list.fly.dev"
+  ? "wss://automerge-livelist.fly.dev"
   : "ws://localhost:3030";
 
 const repo = new Repo({

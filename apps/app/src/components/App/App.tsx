@@ -12,7 +12,7 @@ import { router } from "../../utils/router/router.js";
 import { trpc } from "../../utils/trpc/trpc.js";
 
 const apiUrl = import.meta.env.PROD
-  ? "https://automerge-packing-list.fly.dev/api"
+  ? "https://automerge-livelist.fly.dev/api"
   : "http://localhost:3030/api";
 
 export const App: React.FC = () => {

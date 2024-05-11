@@ -13,26 +13,26 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RegisterImport } from './routes/register'
+import { Route as LoginImport } from './routes/login'
 
 // Create Virtual Routes
 
-const RegisterLazyImport = createFileRoute('/register')()
-const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 const ListDocumentIdLazyImport = createFileRoute('/list/$documentId')()
 const InvitationTokenLazyImport = createFileRoute('/invitation/$token')()
 
 // Create/Update Routes
 
-const RegisterLazyRoute = RegisterLazyImport.update({
+const RegisterRoute = RegisterImport.update({
   path: '/register',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/register.lazy').then((d) => d.Route))
+} as any)
 
-const LoginLazyRoute = LoginLazyImport.update({
+const LoginRoute = LoginImport.update({
   path: '/login',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -62,11 +62,11 @@ declare module '@tanstack/react-router' {
       parentRoute: typeof rootRoute
     }
     '/login': {
-      preLoaderRoute: typeof LoginLazyImport
+      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/register': {
-      preLoaderRoute: typeof RegisterLazyImport
+      preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
     '/invitation/$token': {
@@ -84,8 +84,8 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  LoginLazyRoute,
-  RegisterLazyRoute,
+  LoginRoute,
+  RegisterRoute,
   InvitationTokenLazyRoute,
   ListDocumentIdLazyRoute,
 ])

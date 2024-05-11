@@ -28,7 +28,10 @@ export const App: React.FC = () => {
             ) {
               removeLocalDb();
               queryClient.clear();
-              router.navigate({ to: "/login" });
+              router.navigate({
+                to: "/login",
+                search: { redirect: window.location.pathname },
+              });
             }
           },
         }),
@@ -41,7 +44,10 @@ export const App: React.FC = () => {
             ) {
               removeLocalDb();
               queryClient.clear();
-              router.navigate({ to: "/login" });
+              router.navigate({
+                to: "/login",
+                search: { redirect: window.location.pathname },
+              });
             }
           },
         }),

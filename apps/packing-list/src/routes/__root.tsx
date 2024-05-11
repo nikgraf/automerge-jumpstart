@@ -9,10 +9,16 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { removeLocalDb } from "../utils/removeLocalDb/removeLocalDb";
 import { trpc } from "../utils/trpc/trpc";
 
+const getRedirectParam = () => {
+  const currentUrl = window.location.href;
+  const urlParams = new URLSearchParams(new URL(currentUrl).search);
+  return urlParams.get("redirect") || undefined;
+};
+
 const Root = () => {
   const navigate = useNavigate();
-
   const meQuery = trpc.me.useQuery(undefined, {
+    // avoid lot's of retries in case of unauthorized blocking a page load
     retry: (failureCount, error) => {
       if (error.data?.code === "UNAUTHORIZED") {
         return false;
@@ -31,10 +37,10 @@ const Root = () => {
       <div className="p-2 flex gap-2">
         {(!meQuery.data && !meQuery.isLoading) || isNotAuthorized ? (
           <>
-            <Link to="/login" className="[&.active]:font-bold">
+            <Link to="/login" search={{ redirect: getRedirectParam() }}>
               Login
             </Link>
-            <Link to="/register" className="[&.active]:font-bold">
+            <Link to="/register" search={{ redirect: getRedirectParam() }}>
               Register
             </Link>
           </>
@@ -42,9 +48,7 @@ const Root = () => {
 
         {meQuery.data && !isNotAuthorized ? (
           <>
-            <Link to="/" className="[&.active]:font-bold">
-              Home
-            </Link>
+            <Link to="/">Home</Link>
 
             <span>{meQuery.data.username}</span>
 
@@ -56,7 +60,7 @@ const Root = () => {
                     // delete again to verify in case new info came in during the logout request
                     removeLocalDb();
                     queryClient.invalidateQueries();
-                    navigate({ to: "/" });
+                    navigate({ to: "/login" });
                   },
                   onError: () => {
                     alert("Failed to logout");

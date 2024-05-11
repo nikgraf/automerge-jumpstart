@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 type Props = {
@@ -23,7 +24,7 @@ export const AuthForm = ({ onSubmit, children }: Props) => {
           onSubmit({ username, password });
         }}
       >
-        <h1 className="text-xl font-semibold">Login/Register</h1>
+        <h1 className="text-xl font-semibold">{children}</h1>
 
         <div className="space-y-2 flex flex-col">
           <input
@@ -52,9 +53,7 @@ export const AuthForm = ({ onSubmit, children }: Props) => {
             }}
           />
 
-          <div className="space-x-2">
-            <button>{children}</button>
-          </div>
+          <Button>{children}</Button>
         </div>
       </form>
     </>

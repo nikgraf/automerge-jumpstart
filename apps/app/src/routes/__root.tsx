@@ -14,7 +14,10 @@ import { trpc } from "../utils/trpc/trpc";
 const getRedirectParam = () => {
   const currentUrl = window.location.href;
   const urlParams = new URLSearchParams(new URL(currentUrl).search);
-  return urlParams.get("redirect") || undefined;
+  const redirectParam = urlParams.get("redirect") || undefined;
+  if (redirectParam !== "/login" && redirectParam !== "/register") {
+    return redirectParam;
+  }
 };
 
 const Root = () => {

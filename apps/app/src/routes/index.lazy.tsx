@@ -24,7 +24,6 @@ function Index() {
 
           createDocumentMutation.mutate(
             // @ts-expect-error form name is defined
-
             { name: event.target.name.value },
             {
               onSuccess: ({ document }) => {

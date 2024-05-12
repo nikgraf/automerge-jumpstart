@@ -21,7 +21,7 @@ const Invitation: React.FC = () => {
         },
       }
     );
-  }, []);
+  }, [token, acceptDocumentInvitationMutation, navigate]);
 
   return <div>Loading…</div>;
 };

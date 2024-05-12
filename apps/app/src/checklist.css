@@ -1,0 +1,151 @@
+body {
+  padding: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  border: 0 solid #ededf0;
+}
+
+button {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+
+.checklist-container {
+  background: #fff;
+  position: relative;
+
+  border: 1px solid #ededed;
+  border-radius: calc(0.5rem - 2px);
+}
+
+.checklist-container input::-webkit-input-placeholder {
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.checklist-container input::-moz-placeholder {
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.checklist-container input::input-placeholder {
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.new-checklist-item,
+.edit {
+  width: 100%;
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.4em;
+  color: inherit;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 16px 80px 16px 64px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.003);
+}
+
+.new-checklist-item {
+  border-bottom: 1px solid #ededed;
+}
+
+.add {
+  position: absolute;
+  right: 0;
+  height: 64px;
+  width: 64px;
+  border-left: 1px solid #ededed;
+  border-top-right-radius: calc(0.5rem - 2px);
+}
+
+.checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  position: relative;
+  font-size: 24px;
+  display: block;
+  padding-left: 0px;
+  display: flex;
+  border-bottom: 1px solid #ededed;
+}
+
+.checklist li:last-child {
+  border-bottom: none;
+}
+
+.checklist li .toggle {
+  position: absolute;
+  text-align: center;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  border: none; /* Mobile Safari */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.checklist li .toggle {
+  /*
+		Firefox requires `#` to be escaped - https://bugzilla.mozilla.org/show_bug.cgi?id=922433
+		IE and Edge requires *everything* to be escaped to render, so we do that instead of just the `#` - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7157459/
+	*/
+  background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23949494%22%20stroke-width%3D%223%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.checklist li .toggle:checked {
+  background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%2359A193%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20fill%3D%22%233EA390%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.checklist li .destroy {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 64px;
+  height: 64px;
+  margin: auto 0;
+  font-size: 32px;
+  color: #949494;
+  transition: color 0.2s ease-out;
+  padding-top: 12px;
+}
+
+.checklist li .destroy:hover,
+.checklist li .destroy:focus {
+  color: #c18585;
+}
+
+.checklist li .destroy:after {
+  content: "×";
+  display: block;
+  height: 100%;
+  line-height: 1.1;
+}
+
+.checklist li:hover .destroy {
+  display: block;
+}

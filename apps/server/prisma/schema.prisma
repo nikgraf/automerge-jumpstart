@@ -10,14 +10,62 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Repository {
+model User {
+  id                 String             @id @default(uuid())
+  username           String             @unique
+  registrationRecord String
+  sessions           Session[]
+  loginAttempt       LoginAttempt?
+  createdAt          DateTime           @default(now())
+  documents          UsersOnDocuments[]
+}
+
+model Session {
+  token      String   @id
+  sessionKey String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model LoginAttempt {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id])
+  serverLoginState String
+  createdAt        DateTime @default(now())
+}
+
+model Document {
+  id                  String               @id
+  name                String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  users               UsersOnDocuments[]
+  documentInvitations DocumentInvitation[]
+}
+
+model UsersOnDocuments {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+  isAdmin    Boolean
+
+  @@id([userId, documentId])
+}
+
+model DocumentInvitation {
+  id         String   @id @default(uuid())
+  document   Document @relation(fields: [documentId], references: [id])
+  documentId String
+  token      String   @unique
+  createdAt  DateTime @default(now())
+}
+
+model DocumentData {
   key   Bytes[] @id
   value Bytes
 
   @@ignore
-}
-
-model User {
-  id    String @id @default(uuid())
-  email String @unique @db.VarChar(255)
 }

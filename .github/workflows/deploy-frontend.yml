@@ -11,7 +11,7 @@ jobs:
   Deploy:
     defaults:
       run:
-        working-directory: ./apps/packing-list
+        working-directory: ./apps/livelist
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

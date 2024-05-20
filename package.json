@@ -11,13 +11,13 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
-    "ts:check": "pnpm install && pnpm -r ts:check",
-    "test": "pnpm install && pnpm -r test",
-    "lint": "pnpm install && pnpm -r lint"
+    "ts:check": "pnpm -r ts:check",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint"
   },
   "pnpm": {
     "overrides": {
-      "@automerge/automerge": "^2.2.0"
+      "@automerge/automerge": "^2.2.2"
     }
   }
 }

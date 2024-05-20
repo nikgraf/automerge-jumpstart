@@ -9,8 +9,8 @@ export const getLoginAttempt = async (username: string) => {
       loginAttempt: {
         where: {
           createdAt: {
-            // less than 2 seconds ago
-            gte: new Date(Date.now() - 2000),
+            // less than 8 seconds ago
+            gte: new Date(Date.now() - 8000),
           },
         },
       },

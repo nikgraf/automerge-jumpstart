@@ -6,12 +6,12 @@ on:
   push:
     branches:
       - main
-      - deploy-frontend
+      - document-deploy
 jobs:
   Deploy:
     defaults:
       run:
-        working-directory: ./apps/livelist
+        working-directory: ./apps/app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,7 +24,9 @@ jobs:
           node-version: 20
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+      - name: Generate Prisma Client
+        run: cd ../server && pnpm prisma generate
       - name: Install Vercel CLI
         run: npm install --global vercel@canary
       - name: Pull Vercel Environment Information

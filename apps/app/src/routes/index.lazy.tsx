@@ -27,8 +27,8 @@ function Index() {
             { name: event.target.name.value },
             {
               onSuccess: ({ document }) => {
-                documentsQuery.refetch();
                 navigate({ to: `/list/${document.id}` });
+                documentsQuery.refetch();
               },
               onError: () => {
                 alert("Failed to create the list");
@@ -43,7 +43,9 @@ function Index() {
           placeholder="List name"
           className="max-w-48"
         />
-        <Button type="submit">Create List</Button>
+        <Button type="submit" disabled={createDocumentMutation.isPending}>
+          Create List
+        </Button>
       </form>
 
       <div className="flex flex-col gap-2 pt-4">

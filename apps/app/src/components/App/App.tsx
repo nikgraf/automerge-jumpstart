@@ -7,12 +7,13 @@ import {
 import { RouterProvider } from "@tanstack/react-router";
 import { TRPCClientError, httpBatchLink } from "@trpc/client";
 import { useState } from "react";
+import { apiProductionHost } from "../../constants.js";
 import { removeLocalDb } from "../../utils/removeLocalDb/removeLocalDb.js";
 import { router } from "../../utils/router/router.js";
 import { trpc } from "../../utils/trpc/trpc.js";
 
 const apiUrl = import.meta.env.PROD
-  ? "https://automerge-livelist.fly.dev/api"
+  ? `https://${apiProductionHost}/api`
   : "http://localhost:3030/api";
 
 export const App: React.FC = () => {

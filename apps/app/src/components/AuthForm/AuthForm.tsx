@@ -3,10 +3,11 @@ import { useState } from "react";
 
 type Props = {
   onSubmit: (params: { username: string; password: string }) => void;
+  isPending: boolean;
   children: React.ReactNode;
 };
 
-export const AuthForm = ({ onSubmit, children }: Props) => {
+export const AuthForm = ({ onSubmit, isPending, children }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -52,7 +53,7 @@ export const AuthForm = ({ onSubmit, children }: Props) => {
           }}
         />
 
-        <Button>{children}</Button>
+        <Button disabled={isPending}>{children}</Button>
       </div>
     </form>
   );

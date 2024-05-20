@@ -43,6 +43,7 @@ const Root = () => {
         <Link to="/" className="text-xl flex items-center gap-2">
           <CircleCheckBig />
           LiveList
+          <span>(Demo)</span>
         </Link>
         <div className="flex gap-4 items-center justify-between">
           {(!meQuery.data && !meQuery.isLoading) || isNotAuthorized ? (
@@ -61,6 +62,8 @@ const Root = () => {
               <div>{meQuery.data.username}</div>
 
               <Button
+                // not perfect but good enough since the local changes are fast
+                disabled={logoutMutation.isPending}
                 onClick={async () => {
                   removeLocalDb();
                   logoutMutation.mutate(undefined, {

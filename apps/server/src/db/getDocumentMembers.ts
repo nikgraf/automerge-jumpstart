@@ -20,6 +20,8 @@ export const getDocumentMembers = async ({ documentId, userId }: Params) => {
     },
   });
 
+  if (!document) return null;
+
   const users = document.users.map((connection) => {
     return {
       id: connection.userId,

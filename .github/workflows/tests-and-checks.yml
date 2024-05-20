@@ -13,8 +13,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      # - name: Generate Prisma Types
-      #   run: cd examples/backend && pnpm prisma generate
+      - name: Generate Prisma Client
+        run: cd apps/server && pnpm prisma generate
       - name: Typecheck
         run: pnpm ts:check
   lint:

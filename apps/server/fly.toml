@@ -2,21 +2,25 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "automerge-livelist"
-primary_region = "ams"
-# necessary for small machines on fly.io to avoid running out of memory
+app = 'automerge-livelist'
+primary_region = 'ams'
 swap_size_mb = 2048
 
+[build]
+
 [deploy]
-release_command = "npx prisma migrate deploy"
+release_command = 'npx prisma migrate deploy'
 
 [env]
-PORT = "8080"
+PORT = '3000'
 
 [http_service]
-internal_port = 8080
+internal_port = 3000
 force_https = true
 auto_stop_machines = true
 auto_start_machines = true
 min_machines_running = 0
-processes = ["app"]
+processes = ['app']
+
+[[vm]]
+size = 'shared-cpu-1x'

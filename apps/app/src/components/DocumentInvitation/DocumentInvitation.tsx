@@ -28,6 +28,7 @@ export const DocumentInvitation: React.FC<Props> = ({ documentId }) => {
           className="w-72"
         />
         <Button
+          disabled={createOrRefreshDocumentInvitationMutation.isPending}
           onClick={() =>
             createOrRefreshDocumentInvitationMutation.mutate(
               { documentId },

@@ -9,10 +9,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { getQueryKey } from "@trpc/react-query";
 import { Checklist } from "../../components/Checklist/Checklist";
+import { apiProductionHost } from "../../constants";
 import { trpc } from "../../utils/trpc/trpc";
 
 const syncServer = import.meta.env.PROD
-  ? "wss://automerge-livelist.fly.dev"
+  ? `wss://${apiProductionHost}`
   : "ws://localhost:3030";
 
 const repo = new Repo({

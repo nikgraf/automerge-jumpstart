@@ -1,5 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { trpc } from "../../utils/trpc/trpc";
 
 const Invitation: React.FC = () => {
@@ -8,12 +9,13 @@ const Invitation: React.FC = () => {
   const { token } = Route.useParams();
   const navigate = Route.useNavigate();
 
-  useEffect(() => {
+  const acceptInvitation = () => {
     acceptDocumentInvitationMutation.mutate(
+      { token },
       {
-        token,
-      },
-      {
+        onError: () => {
+          alert("Failed to accept invitation. Please try again.");
+        },
         onSuccess: (data) => {
           if (data?.documentId) {
             navigate({ to: `/list/${data.documentId}` });
@@ -21,9 +23,19 @@ const Invitation: React.FC = () => {
         },
       }
     );
-  }, [token, acceptDocumentInvitationMutation, navigate]);
+  };
 
-  return <div>Loading…</div>;
+  return (
+    <Card className="p-4">
+      <p className="mb-4">Accept the invitation to this list.</p>
+      <Button
+        disabled={acceptDocumentInvitationMutation.isPending}
+        onClick={acceptInvitation}
+      >
+        Accept Invitation
+      </Button>
+    </Card>
+  );
 };
 
 export const Route = createLazyFileRoute("/invitation/$token")({

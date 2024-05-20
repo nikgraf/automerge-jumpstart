@@ -10,11 +10,12 @@
     "outDir": "dist",
     "lib": ["esnext"],
     "types": ["node"],
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "strict": true
   },
   "ts-node": {
     "esm": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts"]
+  "include": ["./src"]
 }

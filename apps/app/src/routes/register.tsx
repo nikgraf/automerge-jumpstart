@@ -8,7 +8,7 @@ import { authenticationSearchParams } from "../schema";
 
 const Register = () => {
   const navigate = useNavigate();
-  const registerAndLogin = useRegisterAndLogin();
+  const { registerAndLogin, isPending } = useRegisterAndLogin();
   const { redirect } = Route.useSearch();
   const [error, setError] = useState<string | null>(null);
 
@@ -31,6 +31,7 @@ const Register = () => {
           navigate({ to: "/" });
         }}
         children="Register"
+        isPending={isPending}
       />
       {error && (
         <Alert variant="destructive" className="mt-4">

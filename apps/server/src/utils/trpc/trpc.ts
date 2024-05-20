@@ -17,6 +17,15 @@ export const createContext = async ({
     res.cookie("session", sessionToken, {
       httpOnly: true,
       maxAge: sessionMaxAge,
+      ...(process.env.NODE_ENV === "production"
+        ? {
+            secure: true,
+            sameSite: "none",
+          }
+        : {
+            secure: false,
+            sameSite: "lax",
+          }),
     });
   };
   const sessionToken = req.cookies?.session;

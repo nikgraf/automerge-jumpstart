@@ -1,4 +1,5 @@
 import * as opaque from "@serenity-kit/opaque";
+import { useState } from "react";
 import { trpc } from "../../utils/trpc/trpc";
 import { useLogin } from "../useLogin/useLogin";
 
@@ -8,11 +9,16 @@ type RegisterParams = {
 };
 
 export const useRegisterAndLogin = () => {
+  const [isPending, setIsPending] = useState(false);
   const registerStartMutation = trpc.registerStart.useMutation();
   const registerFinishMutation = trpc.registerFinish.useMutation();
-  const login = useLogin();
+  const { login } = useLogin();
 
-  return async ({ userIdentifier, password }: RegisterParams) => {
+  const registerAndLogin = async ({
+    userIdentifier,
+    password,
+  }: RegisterParams) => {
+    setIsPending(true);
     try {
       const { clientRegistrationState, registrationRequest } =
         opaque.client.startRegistration({ password });
@@ -32,9 +38,14 @@ export const useRegisterAndLogin = () => {
         registrationRecord,
       });
 
-      return login({ userIdentifier, password });
+      const result = await login({ userIdentifier, password });
+      return result;
     } catch (error) {
       return null;
+    } finally {
+      setIsPending(false);
     }
   };
+
+  return { isPending, registerAndLogin };
 };

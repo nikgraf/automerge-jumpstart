@@ -1,4 +1,6 @@
-## Setup and Run the Apps
+## Development
+
+### Setup
 
 ```sh
 pnpm install
@@ -9,8 +11,8 @@ docker-compose up
 # in another tab
 cd apps/backend
 cp .env.example .env
-# create OPAQUE_SERVER_SETUP and update the value in .env
 npx @serenity-kit/opaque@latest create-server-setup
+# copy the string value as OPAQUE_SERVER_SETUP .env
 pnpm prisma migrate dev
 pnpm dev
 ```
@@ -21,18 +23,32 @@ cd apps/frontend
 pnpm dev
 ```
 
-## Updating the Database Schema
+### Updating the Database Schema
 
 1. Make changes
 2. Run `pnpm prisma migrate dev`
 3. Run `pnpm prisma generate`
 4. Restart the TS server in your editor
 
-## Setup Production Setup
+### DB UI
 
-1. Setup the Environment Variables DATABASE_URL & OPAQUE_SERVER_SETUP
+```bash
+cd apps/backend
+pnpm prisma studio
+```
 
-## Connect to the Database
+### Wipe all local data
+
+```bash
+cd apps/backend
+pnpm prisma migrate reset
+```
+
+## Setup Production Environment and CI
+
+see [docs/setup-production-environment-and-ci.md](docs/setup-production-environment-and-ci.md)
+
+## Connect to the Production Database
 
 ```sh
 fly postgres connect -a automerge-livelist-db
@@ -54,9 +70,3 @@ SELECT * FROM "Document";
 ### Authentication
 
 Users use OPAQUE to authenticate with the server. After Login the server creates a session and stores it as HTTP-Only Cookie. The session is used to authenticate the user for authenticated requests and also to connect to the Websocket.
-
-### Todos
-
-- production setup (websocket and hardcoded localhost for api) and client hardcoded on server (see TODO)
-- password complexity
-- produce video

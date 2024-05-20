@@ -5,7 +5,7 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { PostgresStorageAdapter } from "automerge-repo-storage-postgres";
 import cookie from "cookie";
 import cookieParser from "cookie-parser";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import "dotenv/config";
 import express from "express";
 import os from "os";
@@ -60,9 +60,11 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// TODO - configure CORS
-const corsOptions = {
-  origin: "http://localhost:5173", //(https://your-client-app.com)
+const corsOptions: CorsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://livelist.vercel.app"
+      : "http://localhost:5173",
   credentials: true,
 };
 
@@ -71,6 +73,7 @@ app.use(cors(corsOptions));
 const appRouter = router({
   me: protectedProcedure.query(async (opts) => {
     const user = await getUser(opts.ctx.session.userId);
+    if (!user) return null;
     return { id: user.id, username: user.username };
   }),
   documents: protectedProcedure.query(async (opts) => {
@@ -82,6 +85,7 @@ const appRouter = router({
       documentId: opts.input,
       userId: opts.ctx.session.userId,
     });
+    if (!document) return null;
     return {
       id: document.id,
       name: document.name,
@@ -140,6 +144,7 @@ const appRouter = router({
         documentId: opts.input,
         userId: opts.ctx.session.userId,
       });
+      if (!documentInvitation) return null;
       return { token: documentInvitation.token };
     }),
 
@@ -244,22 +249,28 @@ const appRouter = router({
     .mutation(async (opts) => {
       const { userIdentifier, finishLoginRequest } = opts.input;
 
-      const { serverLoginState } = await getLoginAttempt(userIdentifier);
-      if (!serverLoginState)
+      const loginAttempt = await getLoginAttempt(userIdentifier);
+      if (!loginAttempt || !loginAttempt.serverLoginState)
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "login not started",
         });
-
+      const { serverLoginState } = loginAttempt;
       const { sessionKey } = opaque.server.finishLogin({
         finishLoginRequest,
         serverLoginState,
       });
 
       const sessionToken = generateId(32);
-      const { id: userId } = await getUserByUsername(userIdentifier);
-      await createSession({ token: sessionToken, sessionKey, userId });
-      await deleteLoginAttempt(userId);
+      const user = await getUserByUsername(userIdentifier);
+      if (!user) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "user not found",
+        });
+      }
+      await createSession({ token: sessionToken, sessionKey, userId: user.id });
+      await deleteLoginAttempt(user.id);
 
       opts.ctx.setSessionCookie(sessionToken);
       return { success: true };
@@ -285,7 +296,7 @@ const config: RepoConfig = {
 };
 const repo = new Repo(config);
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send(`Server is running`);
 });
 

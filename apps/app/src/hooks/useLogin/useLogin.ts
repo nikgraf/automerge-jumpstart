@@ -1,5 +1,6 @@
 import * as opaque from "@serenity-kit/opaque";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { trpc } from "../../utils/trpc/trpc";
 
 type LoginParams = {
@@ -11,8 +12,10 @@ export const useLogin = () => {
   const loginStartMutation = trpc.loginStart.useMutation();
   const loginFinishMutation = trpc.loginFinish.useMutation();
   const queryClient = useQueryClient();
+  const [isPending, setIsPending] = useState(false);
 
-  return async ({ userIdentifier, password }: LoginParams) => {
+  const login = async ({ userIdentifier, password }: LoginParams) => {
+    setIsPending(true);
     try {
       const { clientLoginState, startLoginRequest } = opaque.client.startLogin({
         password,
@@ -43,6 +46,9 @@ export const useLogin = () => {
       return success ? sessionKey : null;
     } catch (error) {
       return null;
+    } finally {
+      setIsPending(false);
     }
   };
+  return { isPending, login };
 };

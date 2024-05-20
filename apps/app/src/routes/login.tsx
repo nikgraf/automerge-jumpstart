@@ -8,7 +8,7 @@ import { authenticationSearchParams } from "../schema.js";
 
 const Login = () => {
   const navigate = useNavigate();
-  const login = useLogin();
+  const { login, isPending } = useLogin();
   const { redirect } = Route.useSearch();
   const [error, setError] = useState<string | null>(null);
 
@@ -31,6 +31,7 @@ const Login = () => {
           navigate({ to: "/" });
         }}
         children="Login"
+        isPending={isPending}
       />
       {error && (
         <Alert variant="destructive" className="mt-4">

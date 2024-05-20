@@ -58,22 +58,37 @@ const InvitationTokenLazyRoute = InvitationTokenLazyImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
     '/invitation/$token': {
+      id: '/invitation/$token'
+      path: '/invitation/$token'
+      fullPath: '/invitation/$token'
       preLoaderRoute: typeof InvitationTokenLazyImport
       parentRoute: typeof rootRoute
     }
     '/list/$documentId': {
+      id: '/list/$documentId'
+      path: '/list/$documentId'
+      fullPath: '/list/$documentId'
       preLoaderRoute: typeof ListDocumentIdLazyImport
       parentRoute: typeof rootRoute
     }
@@ -82,12 +97,12 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   LoginRoute,
   RegisterRoute,
   InvitationTokenLazyRoute,
   ListDocumentIdLazyRoute,
-])
+})
 
 /* prettier-ignore-end */

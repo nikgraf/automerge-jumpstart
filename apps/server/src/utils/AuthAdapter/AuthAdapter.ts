@@ -16,14 +16,14 @@ export class AuthAdapter extends NodeWSServerAdapter {
       const hasAccess = await getUserHasAccessToDocument({
         // @ts-expect-error session is set on the socket
         userId: socket.session.userId,
-        documentId: message.documentId,
+        documentId: message.documentId as string,
       });
       if (!hasAccess) {
         return;
       }
 
       // check for invalid awareness messages
-      if (message.type === "ephemeral") {
+      if (message.type === "ephemeral" && message.data) {
         const data: { type: string; userId: string } = decode(message.data);
         if (
           data.type !== "awareness" ||

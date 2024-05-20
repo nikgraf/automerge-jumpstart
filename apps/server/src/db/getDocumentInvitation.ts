@@ -16,7 +16,7 @@ export const getDocumentInvitation = async ({ documentId, userId }: Params) => {
     },
   });
 
-  return document.documentInvitations.length > 0
+  return document && document.documentInvitations.length > 0
     ? document.documentInvitations[0]
     : null;
 };

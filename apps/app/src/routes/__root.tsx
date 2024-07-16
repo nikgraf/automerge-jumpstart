@@ -34,9 +34,9 @@ const Root = () => {
   const navigate = useNavigate();
 
   // on page load immediately redirect to login
-  // if no authorizationToken is available
+  // if no sessionKey is available
   useLayoutEffect(() => {
-    if (!localStorage.getItem("authorizationToken")) {
+    if (!localStorage.getItem("sessionKey")) {
       navigate({
         to: "/login",
         search:
